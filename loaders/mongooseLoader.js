@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 async function connectToMongoDB() {
   try {
-    await mongoose.connect(process.env.MONGO_DB_URL, () => {
-      console.log("Succesfully connect to mongoDB");
+    await mongoose.connect(process.env.MONGODB_URL, () => {
+      console.log("Successfully connect to mongoDB");
     });
   } catch (err) {
     console.error("initial connection error: ", err);
