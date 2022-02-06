@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { uniqueNamesGenerator, names } = require("unique-names-generator");
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -8,7 +9,9 @@ const UserSchema = new mongoose.Schema({
   nickname: {
     type: String,
     unique: true,
-    required: [true, "별명은 반드시 필요합니다."],
+    default: uniqueNamesGenerator({
+      dictionaries: [names],
+    }),
   },
   imageURL: {
     type: String,
