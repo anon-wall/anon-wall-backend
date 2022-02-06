@@ -6,8 +6,9 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const logger = require("morgan");
 
-const usersRouter = require("./routes/users");
 const connectMongoDB = require("./loaders/mongooseLoader");
+const authRouter = require("./routes/auth");
+const usersRouter = require("./routes/users");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use("/api/auth", authRouter);
 app.use("/users", usersRouter);
 
 app.use((req, res, next) => {
