@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
