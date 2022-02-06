@@ -7,11 +7,11 @@ const cors = require("cors");
 const logger = require("morgan");
 
 const usersRouter = require("./routes/users");
-const connectToMongoDB = require("./loaders/mongooseLoader");
+const connectMongoDB = require("./loaders/mongooseLoader");
 
 const app = express();
 
-connectToMongoDB();
+connectMongoDB();
 
 app.use(logger("dev"));
 app.use(cors());
