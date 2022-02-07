@@ -23,17 +23,17 @@ exports.handleLogin = async (req, res, next) => {
       { email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "1d",
       }
     );
 
     res.cookie("accessToken", accessToken, {
-      maxAge: 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
       result: "success",
-      data: null,
+      data: user,
     });
   } catch (err) {
     next(createError(err));
