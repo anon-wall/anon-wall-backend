@@ -24,6 +24,23 @@ exports.createCounsel = async (req, res, next) => {
   }
 };
 
+exports.getCounselList = async (req, res, next) => {
+  try {
+    const story = await Counsel.find().populate("counselee").lean();
+
+    if (!story) {
+      return next(createError(400));
+    } else {
+      res.status(201).json({
+        result: "success",
+        story: story,
+      });
+    }
+  } catch (err) {
+    next(createError(500, err));
+  }
+};
+
 exports.getCounsel = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
