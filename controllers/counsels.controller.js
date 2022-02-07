@@ -5,9 +5,16 @@ const { RESPONSE } = require("../constants");
 
 exports.createCounsel = async (req, res, next) => {
   try {
-    const newCounsel = req.body;
+    const { counselee, counselor, title, content, tag, createdAt } = req.body;
 
-    await Counsel.create(newCounsel);
+    await Counsel.create({
+      counselee,
+      counselor,
+      title,
+      content,
+      tag,
+      createdAt,
+    });
 
     res.status(201).json({
       result: RESPONSE.SUCCESS,

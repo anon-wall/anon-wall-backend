@@ -2,11 +2,13 @@ const mongoose = require("mongoose");
 
 const counselSchema = new mongoose.Schema({
   counselee: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: [true, "카운슬리는 반드시 필요합니다."],
   },
   counselor: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     index: true,
   },
   title: {
@@ -22,6 +24,7 @@ const counselSchema = new mongoose.Schema({
   tag: [
     {
       type: String,
+      index: true,
       validate: {
         validator: function () {
           return this.tag.length <= 10;
