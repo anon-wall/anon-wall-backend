@@ -6,7 +6,7 @@ const User = require("../models/User");
 exports.handleLogin = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const foundUser = await User.findOne({ email });
+    const foundUser = await User.findOne({ email }).lean();
     let user = foundUser;
 
     if (!foundUser) {
@@ -16,7 +16,7 @@ exports.handleLogin = async (req, res, next) => {
           tag: [],
           validDate: [],
         },
-      });
+      }).lean();
     }
 
     const accessToken = jwt.sign(
