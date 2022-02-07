@@ -28,16 +28,12 @@ exports.getCounselList = async (req, res, next) => {
   try {
     const story = await Counsel.find().populate("counselee").lean();
 
-    if (!story) {
-      return next(createError(400));
-    } else {
-      res.status(201).json({
-        result: "success",
-        story: story,
-      });
-    }
+    res.status(201).json({
+      result: "success",
+      story: story,
+    });
   } catch (err) {
-    next(createError(500, err));
+    next(createError(err));
   }
 };
 
