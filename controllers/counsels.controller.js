@@ -5,11 +5,10 @@ const { RESPONSE, MESSAGE } = require("../constants");
 
 exports.createCounsel = async (req, res, next) => {
   try {
-    const { counselee, counselor, title, content, tag, createdAt } = req.body;
+    const { counselee, title, content, tag, createdAt } = req.body;
 
     await Counsel.create({
       counselee,
-      counselor,
       title,
       content,
       tag,
@@ -25,24 +24,25 @@ exports.createCounsel = async (req, res, next) => {
   }
 };
 
-exports.getAll = async (req, res, next) => {
+exports.getCounsel = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
 
     const counsel = await Counsel.findById(counsel_id)
       .populate("counselors")
+      .populate("counselee")
       .lean();
+
+    if (!counsel) {
+      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      return;
+    }
 
     res.status(201).json({
       result: RESPONSE.SUCCESS,
       data: counsel,
     });
   } catch (err) {
-    if (err.name === "CastError") {
-      next(createError.BadRequest(MESSAGE.BADREQUEST));
-      return;
-    }
-
     next(createError(err));
   }
 };
