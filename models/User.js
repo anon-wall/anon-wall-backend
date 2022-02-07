@@ -4,11 +4,12 @@ const { uniqueNamesGenerator, names } = require("unique-names-generator");
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
+    unique: [true, "이메일은 유니크한 값이여야 합니다."],
     required: [true, "이메일은 반드시 필요합니다."],
   },
   nickname: {
     type: String,
-    unique: true,
+    unique: [true, "닉네임은 유니크한 값이여야 합니다."],
     default: uniqueNamesGenerator({
       dictionaries: [names],
     }),

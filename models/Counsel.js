@@ -37,7 +37,7 @@ const counselSchema = new mongoose.Schema({
   counselors: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      unique: [true, "카운슬러의 아이디는 유니크 해야합니다."],
+      ref: "User",
     },
   ],
   startDate: {
