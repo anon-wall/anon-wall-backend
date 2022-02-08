@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const createError = require("http-errors");
 
+const { MESSAGE } = require("../constants");
+
 exports.checkObjectId = function (req, res, next) {
   const [paramId] = Object.values(req.params);
 
@@ -9,5 +11,5 @@ exports.checkObjectId = function (req, res, next) {
     return;
   }
 
-  next(createError(400, "유효하지 않은 object id입니다."));
+  next(createError(400, MESSAGE.INVAILD_OBJECT_ID));
 };
