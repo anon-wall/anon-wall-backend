@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
+const { getCounselor } = require("../controllers/users.controller");
+const { checkObjectId } = require("../middlewares/validateObjectId");
+
+router.get("/:user_id", checkObjectId, getCounselor);
 
 module.exports = router;
