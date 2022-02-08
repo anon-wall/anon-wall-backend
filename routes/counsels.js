@@ -3,9 +3,9 @@ const router = express.Router();
 
 const {
   createCounsel,
-  getCounsel,
   getCounselList,
   updateCounsel,
+  getCounsel,
 } = require("../controllers/counsels.controller");
 const { checkObjectId } = require("../middlewares/validateObjectId");
 
