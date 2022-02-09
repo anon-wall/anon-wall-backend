@@ -40,11 +40,14 @@ const UserSchema = new mongoose.Schema({
         index: true,
       },
     ],
-    validDate: [
+    availableDate: [
       {
-        day: String,
-        start: String,
-        end: String,
+        type: { type: String },
+        day: Number,
+        startHour: Number,
+        endHour: Number,
+        startTime: Date,
+        endTime: Date,
       },
     ],
   },

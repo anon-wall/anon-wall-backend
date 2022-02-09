@@ -7,14 +7,16 @@ const {
   createCounsel,
   getCounselList,
   getReservedCounselList,
-  updateCounsel,
   getCounsel,
+  updateCounsel,
+  updateCounselors,
 } = require("../controllers/counsels.controller");
 
 router.post("/", verifyToken, createCounsel);
 router.get("/", getCounselList);
 router.get("/reserved", getReservedCounselList);
-router.post("/:counsel_id/counselors", checkObjectId, updateCounsel);
 router.get("/:counsel_id", checkObjectId, getCounsel);
+router.post("/:counsel_id/counselors", checkObjectId, updateCounsel);
+router.post("/:counsel_id/counselors", checkObjectId, updateCounselors);
 
 module.exports = router;
