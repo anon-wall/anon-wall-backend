@@ -157,7 +157,18 @@ exports.getCounsel = async (req, res, next) => {
   }
 };
 
-exports.updateCounsel = async (req, res, next) => {
+// exports.updateCounsel = async (req, res, next) => {
+//   try {
+//     const { counsel_id } = req.params;
+//     const { counselor, startDate, endDate } = req.body;
+
+//     const reservedCounsel = await Counsel.findByIdAndUpdate()
+//   } catch (err) {
+//     next(createError(err));
+//   }
+// };
+
+exports.updateCounselors = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
     const { userId } = req.body;
