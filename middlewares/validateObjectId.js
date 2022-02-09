@@ -11,5 +11,5 @@ exports.checkObjectId = function (req, res, next) {
     return;
   }
 
-  next(createError(400, MESSAGE.INVAILD_OBJECT_ID));
+  next(createError(400, MESSAGE.INVALID_OBJECT_ID));
 };

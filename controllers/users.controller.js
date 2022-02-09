@@ -10,7 +10,7 @@ exports.getCounselor = async (req, res, next) => {
     const counselor = await User.findById(user_id).lean();
 
     if (!counselor) {
-      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
       return;
     }
 

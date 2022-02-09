@@ -6,7 +6,7 @@ const { RESPONSE, MESSAGE } = require("../constants");
 
 exports.createCounsel = async (req, res, next) => {
   try {
-    const { counselee, title, content, tag, createdAt } = req.body;
+    const { counselee, counselors, title, content, tag, createdAt } = req.body;
 
     await Counsel.create({
       counselee,
@@ -14,6 +14,7 @@ exports.createCounsel = async (req, res, next) => {
       content,
       tag,
       createdAt,
+      counselors,
     });
 
     res.status(201).json({
@@ -144,7 +145,7 @@ exports.getCounsel = async (req, res, next) => {
       .lean();
 
     if (!counsel) {
-      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
       return;
     }
 
@@ -157,16 +158,41 @@ exports.getCounsel = async (req, res, next) => {
   }
 };
 
-// exports.updateCounsel = async (req, res, next) => {
-//   try {
-//     const { counsel_id } = req.params;
-//     const { counselor, startDate, endDate } = req.body;
+exports.updateCounsel = async (req, res, next) => {
+  try {
+    const { counsel_id } = req.params;
+    const { counselor, startDate, endDate } = req.body;
 
-//     const reservedCounsel = await Counsel.findByIdAndUpdate()
-//   } catch (err) {
-//     next(createError(err));
-//   }
-// };
+    if (!mongoose.Types.ObjectId.isValid(counselor)) {
+      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
+      return;
+    }
+
+    await Counsel.findByIdAndDelete(counsel_id.counselor);
+
+    if (startDate.valueOf() > endDate.valueOf()) {
+      next(createError(400, MESSAGE.UNAVAILABLE_DATE), {
+        result: RESPONSE.FAIL,
+      });
+      return;
+    }
+
+    await Counsel.findByIdAndUpdate(
+      counsel_id,
+      {
+        $set: { counselor, startDate, endDate },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json({
+      result: RESPONSE.SUCCESS,
+      data: null,
+    });
+  } catch (err) {
+    next(createError(err));
+  }
+};
 
 exports.updateCounselors = async (req, res, next) => {
   try {
@@ -182,14 +208,14 @@ exports.updateCounselors = async (req, res, next) => {
     );
 
     if (isContain) {
-      next(createError(400, "사연 수락은 한번만 할 수 있습니다."), {
+      next(createError(400, MESSAGE.DUPLICATE_REQUEST), {
         result: RESPONSE.FAIL,
       });
       return;
     }
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
-      next(createError(400, MESSAGE.INVAILD_OBJECT_ID));
+      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
       return;
     }
 
@@ -203,7 +229,7 @@ exports.updateCounselors = async (req, res, next) => {
     });
   } catch (err) {
     if (err.name === "TypeError") {
-      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
       return;
     }
 
