@@ -27,11 +27,9 @@ exports.createCounsel = async (req, res, next) => {
 
 exports.getCounselList = async (req, res, next) => {
   try {
-    const stories = await Counsel.find().populate("counselee").lean();
-
     res.status(200).json({
-      result: "success",
-      data: stories,
+      result: RESPONSE.SUCCESS,
+      data: req.pagination,
     });
   } catch (err) {
     next(createError(err));
