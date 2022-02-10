@@ -27,9 +27,107 @@ exports.createCounsel = async (req, res, next) => {
 
 exports.getCounselList = async (req, res, next) => {
   try {
+    const { page = 1, limit = 6, tag, counselor } = req.query;
+    const sortBy = req.query.sort || { createdAt: -1 };
+
+    const options = {};
+
+    if (tag) {
+      options.tag = { $elemMatch: { $eq: tag } };
+    }
+
+    if (counselor) {
+      options.counselor = { $exists: false };
+    }
+
+    const totalCounsel = await Counsel.countDocuments();
+    const reservedCounsels = await Counsel.find(options)
+      .sort(sortBy)
+      .limit(parseInt(limit))
+      .skip((page - 1) * parseInt(limit))
+      .populate("counselee")
+      .lean();
+
+    const data = {
+      hasPrevPage: true,
+      hasNextPage: true,
+      reservedCounsels,
+    };
+
+    if (parseInt(page) === 1) {
+      data.hasPrevPage = false;
+    }
+
+    if (parseInt(page) * limit >= totalCounsel) {
+      data.hasNextPage = false;
+    }
+
     res.status(200).json({
       result: RESPONSE.SUCCESS,
-      data: req.pagination,
+      data: data,
+    });
+  } catch (err) {
+    next(createError(err));
+  }
+};
+
+exports.getReservedCounselList = async (req, res, next) => {
+  try {
+    const { page = 1, limit = 6, counselor, counselee } = req.query;
+    const sortBy = req.query.sort || { startDate: 1 };
+    let options;
+
+    if (
+      !mongoose.Types.ObjectId.isValid(counselee) &&
+      !mongoose.Types.ObjectId.isValid(counselor)
+    ) {
+      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      return;
+    }
+
+    if (counselee) {
+      options = {
+        $and: [
+          { endDate: { $gte: new Date().toISOString() } },
+          { counselee: counselee },
+        ],
+      };
+    }
+
+    if (counselor) {
+      options = {
+        $and: [
+          { endDate: { $gte: new Date().toISOString() } },
+          { counselor: counselor },
+        ],
+      };
+    }
+
+    const reservedTotalCounsels = await Counsel.find(options).countDocuments();
+    const reservedCounsels = await Counsel.find(options)
+      .sort(sortBy)
+      .limit(parseInt(limit))
+      .skip((page - 1) * parseInt(limit))
+      .populate("counselee counselor")
+      .lean();
+
+    const data = {
+      hasPrevPage: true,
+      hasNextPage: true,
+      reservedCounsels,
+    };
+
+    if (parseInt(page) === 1) {
+      data.hasPrevPage = false;
+    }
+
+    if (parseInt(page) * limit >= reservedTotalCounsels) {
+      data.hasNextPage = false;
+    }
+
+    res.status(200).json({
+      result: RESPONSE.SUCCESS,
+      data: data,
     });
   } catch (err) {
     next(createError(err));
