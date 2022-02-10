@@ -10,11 +10,11 @@ exports.createCounsel = async (req, res, next) => {
 
     await Counsel.create({
       counselee,
+      counselors,
       title,
       content,
       tag,
       createdAt,
-      counselors,
     });
 
     res.status(201).json({
@@ -163,26 +163,41 @@ exports.updateCounsel = async (req, res, next) => {
     const { counsel_id } = req.params;
     const { counselor, startDate, endDate } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(counselor)) {
+    if (!mongoose.isValidObjectId(counselor)) {
       next(createError(400, MESSAGE.INVALID_OBJECT_ID));
       return;
     }
 
-    await Counsel.findByIdAndDelete(counsel_id.counselor);
+    const { counselors } = await Counsel.findById(counsel_id)
+      .select("counselors")
+      .lean();
 
-    if (startDate.valueOf() > endDate.valueOf()) {
+    const isIncluded = String(counselors).includes(counselor);
+
+    if (!isIncluded) {
+      next(createError(403, MESSAGE.UNAUTHORIZED), {
+        result: RESPONSE.FAIL,
+      });
+      return;
+    }
+
+    const isAvailable = startDate.valueOf() < endDate.valueOf();
+
+    if (!isAvailable) {
       next(createError(400, MESSAGE.UNAVAILABLE_DATE), {
         result: RESPONSE.FAIL,
       });
       return;
     }
 
+    await Counsel.findByIdAndDelete(counselor);
+
     await Counsel.findByIdAndUpdate(
       counsel_id,
       {
         $set: { counselor, startDate, endDate },
       },
-      { new: true, upsert: true }
+      { upsert: true }
     );
 
     res.status(201).json({
@@ -199,6 +214,11 @@ exports.updateCounselors = async (req, res, next) => {
     const { counsel_id } = req.params;
     const { userId } = req.body;
 
+    if (!mongoose.isValidObjectId(userId)) {
+      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
+      return;
+    }
+
     const { counselors } = await Counsel.findById(counsel_id)
       .select("counselors")
       .lean();
@@ -211,11 +231,6 @@ exports.updateCounselors = async (req, res, next) => {
       next(createError(400, MESSAGE.DUPLICATE_REQUEST), {
         result: RESPONSE.FAIL,
       });
-      return;
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
       return;
     }
 
