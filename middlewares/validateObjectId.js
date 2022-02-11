@@ -6,7 +6,7 @@ const { MESSAGE } = require("../constants");
 exports.checkObjectId = function (req, res, next) {
   const [paramId] = Object.values(req.params);
 
-  if (mongoose.Types.ObjectId.isValid(paramId)) {
+  if (mongoose.Types.ObjectId.isValid(String(paramId))) {
     next();
     return;
   }

@@ -22,3 +22,46 @@ exports.getCounselor = async (req, res, next) => {
     next(createError(err));
   }
 };
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const {
+      nickname,
+      notification,
+      imageURL,
+      familyTitle,
+      tag,
+      shortInput,
+      longInput,
+    } = req.body;
+
+    const counselor = await User.findByIdAndUpdate(
+      user_id,
+      {
+        $set: {
+          nickname: nickname,
+          notification: notification,
+          imageURL: imageURL,
+          "counselor.familyTitle": familyTitle,
+          "counselor.tag": tag,
+          "counselor.shortInput": shortInput,
+          "counselor.longInput": longInput,
+        },
+      },
+      { new: true }
+    ).lean();
+
+    if (!counselor) {
+      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      return;
+    }
+
+    res.status(201).json({
+      result: RESPONSE.SUCCESS,
+      data: counselor,
+    });
+  } catch (err) {
+    next(createError(err));
+  }
+};
