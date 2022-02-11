@@ -40,16 +40,14 @@ const UserSchema = new mongoose.Schema({
         index: true,
       },
     ],
-    availableDates: [
-      {
-        type: { type: String },
-        day: Number,
-        startHour: Number,
-        endHour: Number,
-        startTime: Date,
-        endTime: Date,
-      },
-    ],
+    availableDates: {
+      type: { type: String },
+      day: Number,
+      startHour: Number,
+      endHour: Number,
+      startDate: Date,
+      endDate: Date,
+    },
   },
 });
 

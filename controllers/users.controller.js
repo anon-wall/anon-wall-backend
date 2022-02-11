@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const createError = require("http-errors");
 
 const User = require("../models/User");
@@ -60,6 +61,38 @@ exports.updateUser = async (req, res, next) => {
     res.status(201).json({
       result: RESPONSE.SUCCESS,
       data: counselor,
+    });
+  } catch (err) {
+    next(createError(err));
+  }
+};
+
+exports.updateCounselorSchedule = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const { type, day, startHour, endHour, startDate, endDate } = req.body;
+
+    if (!mongoose.isValidObjectId(user_id)) {
+      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
+      return;
+    }
+
+    await User.findByIdAndUpdate(user_id, {
+      $push: {
+        "counselor.availableDates": {
+          type,
+          day,
+          startHour,
+          endHour,
+          startDate,
+          endDate,
+        },
+      },
+    }).lean();
+
+    res.status(201).json({
+      result: RESPONSE.SUCCESS,
+      data: null,
     });
   } catch (err) {
     next(createError(err));

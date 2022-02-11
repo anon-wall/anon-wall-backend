@@ -42,7 +42,7 @@ exports.getCounselList = async (req, res, next) => {
     }
 
     const totalCounsel = await Counsel.countDocuments();
-    const reservedCounsels = await Counsel.find(options)
+    const pageCounsels = await Counsel.find(options)
       .sort(sortBy)
       .limit(parseInt(limit))
       .skip((page - 1) * parseInt(limit))
@@ -52,7 +52,7 @@ exports.getCounselList = async (req, res, next) => {
     const data = {
       hasPrevPage: true,
       hasNextPage: true,
-      reservedCounsels,
+      pageCounsels,
     };
 
     if (parseInt(page) === 1) {
@@ -105,7 +105,7 @@ exports.getReservedCounselList = async (req, res, next) => {
     }
 
     const reservedTotalCounsels = await Counsel.find(options).countDocuments();
-    const reservedCounsels = await Counsel.find(options)
+    const pageCounsels = await Counsel.find(options)
       .sort(sortBy)
       .limit(parseInt(limit))
       .skip((page - 1) * parseInt(limit))
@@ -115,7 +115,7 @@ exports.getReservedCounselList = async (req, res, next) => {
     const data = {
       hasPrevPage: true,
       hasNextPage: true,
-      reservedCounsels,
+      pageCounsels,
     };
 
     if (parseInt(page) === 1) {
