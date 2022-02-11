@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
         index: true,
       },
     ],
-    availableDate: [
+    availableDates: [
       {
         type: { type: String },
         day: Number,
