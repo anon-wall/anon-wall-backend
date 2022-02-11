@@ -44,7 +44,7 @@ exports.updateUser = async (req, res, next) => {
           notification: notification,
           imageURL: imageURL,
           "counselor.familyTitle": familyTitle,
-          "counselor.tag": tag,
+          "counselor.tag": [...new Set(tag)],
           "counselor.shortInput": shortInput,
           "counselor.longInput": longInput,
         },
