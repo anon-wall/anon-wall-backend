@@ -73,34 +73,34 @@ exports.getCounselList = async (req, res, next) => {
 
 exports.getReservedCounselList = async (req, res, next) => {
   try {
-    const { page = 1, limit = 6, counselor, counselee } = req.query;
-    const sortBy = req.query.sort || { startDate: 1 };
+    const { page = 1, limit = 6, counselor, counselee, sort } = req.query;
+    const sortBy = sort || { startDate: 1 };
+    const isValidCounselee = mongoose.Types.ObjectId.isValid(counselee);
+    const isValidCounselor = mongoose.Types.ObjectId.isValid(counselor);
     let options;
 
-    if (
-      !mongoose.Types.ObjectId.isValid(counselee) &&
-      !mongoose.Types.ObjectId.isValid(counselor)
-    ) {
+    if (isValidCounselee && isValidCounselor) {
       next(createError.BadRequest(MESSAGE.BADREQUEST));
       return;
     }
 
-    if (counselee) {
+    if (isValidCounselee) {
       options = {
         $and: [
           { endDate: { $gte: new Date().toISOString() } },
           { counselee: counselee },
         ],
       };
-    }
-
-    if (counselor) {
+    } else if (isValidCounselor) {
       options = {
         $and: [
           { endDate: { $gte: new Date().toISOString() } },
           { counselor: counselor },
         ],
       };
+    } else {
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
+      return;
     }
 
     const reservedTotalCounsels = await Counsel.find(options).countDocuments();
