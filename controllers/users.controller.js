@@ -53,7 +53,7 @@ exports.updateUser = async (req, res, next) => {
     ).lean();
 
     if (!counselor) {
-      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
       return;
     }
 
