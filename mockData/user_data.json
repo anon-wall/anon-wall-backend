@@ -2,14 +2,31 @@
   {
     "email": "hi@gmail.com",
     "nickname": "헝그리맨",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/sojung.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
@@ -22,98 +39,234 @@
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "proudman@gmail.com",
     "nickname": "프라우드먼",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/female/sojung.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "camo@gmail.com",
     "nickname": "cashmoney",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/coding.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "cl@gmail.com",
     "nickname": "닥터페퍼",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/coding.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "noze@gmail.com",
     "nickname": "노제",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/noze.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "g-dragon@gmail.com",
     "nickname": "권지용",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/g-dragon.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "ken@gmail.com",
     "nickname": "허켄",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/kenhuh.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "merkyuri@gmail.com",
     "nickname": "머큐리규리",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/react.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
@@ -126,20 +279,54 @@
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   },
   {
     "email": "loco@gmail.com",
     "nickname": "로꼬",
-    "imageURL": "https://newsimg-hams.hankookilbo.com/2021/12/31/4413435b-023d-478c-8637-433979169e40.jpg",
+    "imageURL": "https://avatars.dicebear.com/api/croodles/locco.svg",
     "notification": "60",
     "counselor": {
       "familyTitle": "효자효녀",
       "shortInput": "안녕하세요 새로운 카운슬러입니다.",
       "longInput": "저는 효자효녀로서 활동하고 있는 카운슬러입니다.",
       "tag": ["치킨", "피자", "막걸리"],
-      "validDate": []
+      "availableDates": [
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        },
+        {
+          "type": "day",
+          "startDate": "2022-01-11T12:30:00.000+00:00",
+          "endDate": "2022-03-11T13:00:00.000+00:00",
+          "day": "3",
+          "startHour": "14",
+          "endHour": "23"
+        }
+      ]
     }
   }
 ]
