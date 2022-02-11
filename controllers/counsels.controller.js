@@ -80,7 +80,7 @@ exports.getReservedCounselList = async (req, res, next) => {
     let options;
 
     if (isValidCounselee && isValidCounselor) {
-      next(createError.BadRequest(MESSAGE.BADREQUEST));
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
       return;
     }
 
