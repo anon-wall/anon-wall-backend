@@ -40,14 +40,22 @@ const UserSchema = new mongoose.Schema({
         index: true,
       },
     ],
-    availableDates: {
-      type: { type: String },
-      day: { type: Number },
-      startHour: { type: Number },
-      endHour: { type: Number },
-      startDate: { type: Date },
-      endDate: { type: Date },
-    },
+    availableDates: [
+      {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          default: function () {
+            return new mongoose.Types.ObjectId();
+          },
+        },
+        type: { type: String },
+        day: { type: Number },
+        startHour: { type: Number },
+        endHour: { type: Number },
+        startDate: { type: Date },
+        endDate: { type: Date },
+      },
+    ],
   },
 });
 

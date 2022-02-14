@@ -16,7 +16,7 @@ exports.handleLogin = async (req, res, next) => {
           tag: [],
           validDate: [],
         },
-      }).lean();
+      });
     }
 
     const accessToken = jwt.sign(
