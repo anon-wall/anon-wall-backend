@@ -163,11 +163,6 @@ exports.updateCounsel = async (req, res, next) => {
     const { counsel_id } = req.params;
     const { counselor, startDate, endDate } = req.body;
 
-    if (!mongoose.isValidObjectId(counselor)) {
-      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
-      return;
-    }
-
     const { counselors } = await Counsel.findById(counsel_id)
       .select("counselors")
       .lean();
@@ -213,11 +208,6 @@ exports.updateCounselors = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
     const { userId } = req.body;
-
-    if (!mongoose.isValidObjectId(userId)) {
-      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
-      return;
-    }
 
     const { counselors } = await Counsel.findById(counsel_id)
       .select("counselors")
