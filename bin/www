@@ -5,8 +5,10 @@
  */
 
 const app = require("../app");
-const debug = require("debug")("ttestyaho:server");
+const debug = require("debug")("anon-wall-backend:server");
 const http = require("http");
+
+const { webSocket } = require("../loaders/socket");
 
 /**
  * Get port from environment and store in Express.
@@ -20,51 +22,8 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "http://localhost:3000",
-  }
-});
 
-const rooms = {};
-
-io.on("connection", (socket) => {
-  socket.emit("me", socket.id);
-
-  socket.on("joinRoom", roomID => {
-    if (rooms[roomID]) {
-      rooms[roomID].push(socket.id);
-    } else {
-      rooms[roomID] = [socket.id];
-    }
-
-    const otherUserId = rooms[roomID].find(id => id !== socket.id);
-
-    if (otherUserId) {
-      socket.to(otherUserId).emit("otherUserId", socket.id);
-    }
-  });
-
-  socket.on("leaveRoom", roomID => {
-    rooms[roomID] = rooms[roomID].filter(id => id !== socket.id);
-
-    const leftUser = rooms[roomID].find(id => id !== socket.id);
-
-    socket.to(leftUser).emit("someoneLeft", socket.id);
-  });
-
-  socket.on("disconnect", () => {
-    socket.broadcast.emit("callEnded");
-  });
-
-  socket.on("sendCall", (data) => {
-    io.to(data.userToCall).emit("sendCall", { signal: data.signal, from: data.from, nickname: data.nickname });
-  });
-
-  socket.on("answerCall", (data) => {
-    io.to(data.to).emit("callAccepted", data.signal);
-  });
-});
+webSocket(server);
 
 /**
  * Listen on provided port, on all network interfaces.
