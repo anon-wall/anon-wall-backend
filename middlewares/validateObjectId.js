@@ -4,12 +4,14 @@ const createError = require("http-errors");
 const { MESSAGE } = require("../constants");
 
 exports.checkObjectId = function (req, res, next) {
-  const [paramId] = Object.values(req.params);
+  const paramIds = Object.values(req.params);
 
-  if (mongoose.Types.ObjectId.isValid(String(paramId))) {
-    next();
-    return;
+  for (let i = 0; i < paramIds.length; i++) {
+    if (!mongoose.Types.ObjectId.isValid(paramIds[i])) {
+      next(createError(400, MESSAGE.INVALID_OBJECT_ID));
+      return;
+    }
   }
 
-  next(createError(400, MESSAGE.INVALID_OBJECT_ID));
+  next();
 };

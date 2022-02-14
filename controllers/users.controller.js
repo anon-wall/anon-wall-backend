@@ -96,3 +96,29 @@ exports.updateCounselorSchedule = async (req, res, next) => {
     next(createError(err));
   }
 };
+
+exports.deleteCounselorSchedule = async (req, res, next) => {
+  try {
+    const { user_id, id } = req.params;
+
+    const counselor = await User.findByIdAndUpdate(
+      user_id,
+      {
+        $pull: { "counselor.availableDates": { _id: id } },
+      },
+      { multi: true }
+    );
+
+    if (!counselor) {
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
+      return;
+    }
+
+    res.status(201).json({
+      result: RESPONSE.SUCCESS,
+      data: null,
+    });
+  } catch (err) {
+    next(createError(err));
+  }
+};
