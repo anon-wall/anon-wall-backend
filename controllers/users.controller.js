@@ -101,13 +101,9 @@ exports.deleteCounselorSchedule = async (req, res, next) => {
   try {
     const { user_id, id } = req.params;
 
-    const counselor = await User.findByIdAndUpdate(
-      user_id,
-      {
-        $pull: { "counselor.availableDates": { _id: id } },
-      },
-      { multi: true }
-    );
+    const counselor = await User.findByIdAndUpdate(user_id, {
+      $pull: { "counselor.availableDates": { _id: id } },
+    });
 
     if (!counselor) {
       next(createError.BadRequest(MESSAGE.BAD_REQUEST));
