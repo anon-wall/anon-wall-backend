@@ -9,7 +9,7 @@ exports.verifyToken = (req, res, next) => {
     return;
   }
 
-  jwt.verify(accessToken, process.env.ACCESS.TOKEN_SECRET, (err, user) => {
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       switch (err.name) {
         case "JsonWebTokenError":
@@ -21,8 +21,8 @@ exports.verifyToken = (req, res, next) => {
         default:
           next(createError.Unauthorized("유효하지 않은 토큰입니다."));
       }
-
-      next();
     }
+
+    next();
   });
 };

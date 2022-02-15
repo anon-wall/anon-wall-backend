@@ -28,7 +28,7 @@ exports.createCounsel = async (req, res, next) => {
 
 exports.getCounselList = async (req, res, next) => {
   try {
-    const { page = 1, limit = 6, tag, counselor } = req.query;
+    const { page = 1, limit = 6, tag, counselor, counselee } = req.query;
     const sortBy = req.query.sort || { createdAt: -1 };
 
     const options = {};
@@ -39,6 +39,10 @@ exports.getCounselList = async (req, res, next) => {
 
     if (counselor) {
       options.counselor = { $exists: false };
+    }
+
+    if (counselee) {
+      options.counselee = { $eq: counselee };
     }
 
     const totalCounsel = await Counsel.countDocuments();
@@ -167,7 +171,11 @@ exports.updateCounsel = async (req, res, next) => {
       .select("counselors")
       .lean();
 
+    console.log("Array", counselors);
+
     const isIncluded = String(counselors).includes(counselor);
+
+    console.log("String", String(counselors));
 
     if (!isIncluded) {
       next(createError(403, MESSAGE.UNAUTHORIZED), {
@@ -224,9 +232,15 @@ exports.updateCounselors = async (req, res, next) => {
       return;
     }
 
-    await Counsel.findByIdAndUpdate(counsel_id, {
-      $push: { counselors: userId },
-    });
+    await Counsel.findByIdAndUpdate(
+      counsel_id,
+      {
+        $push: { counselors: userId },
+      },
+      {
+        new: true,
+      }
+    );
 
     res.status(201).json({
       result: RESPONSE.SUCCESS,

@@ -16,7 +16,7 @@ router.post("/", verifyToken, createCounsel);
 router.get("/", getCounselList);
 router.get("/reserved", getReservedCounselList);
 router.get("/:counsel_id", checkObjectId, getCounsel);
-router.post("/:counsel_id/counselors", checkObjectId, updateCounsel);
+router.post("/:counsel_id/counselors/:user_id", checkObjectId, updateCounsel);
 router.post("/:counsel_id/counselors", checkObjectId, updateCounselors);
 
 module.exports = router;
