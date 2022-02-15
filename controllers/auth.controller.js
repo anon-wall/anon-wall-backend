@@ -16,7 +16,8 @@ exports.handleLogin = async (req, res, next) => {
           tag: [],
           validDate: [],
         },
-      });
+        imageURL: `https://avatars.dicebear.com/api/croodles/${email}.svg`,
+      }).lean();
     }
 
     const accessToken = jwt.sign(
