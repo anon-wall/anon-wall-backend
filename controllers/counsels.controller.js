@@ -134,8 +134,7 @@ exports.getCounsel = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
     const counsel = await Counsel.findById(counsel_id)
-      .populate("counselors")
-      .populate("counselee")
+      .populate("counselee counselors")
       .lean();
 
     if (!counsel) {
