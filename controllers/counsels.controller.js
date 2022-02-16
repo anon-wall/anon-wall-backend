@@ -159,6 +159,7 @@ exports.updateCounsel = async (req, res, next) => {
     const { counselors } = await Counsel.findById(counsel_id)
       .select("counselors")
       .lean();
+
     const isIncluded = String(counselors).includes(counselor);
 
     if (!isIncluded) {
@@ -212,11 +213,9 @@ exports.updateCounselors = async (req, res, next) => {
       return;
     }
 
-    await Counsel.findByIdAndUpdate(
-      counsel_id,
-      { $push: { counselors: userId } },
-      { new: true }
-    );
+    await Counsel.findByIdAndUpdate(counsel_id, {
+      $push: { counselors: userId },
+    });
 
     res.status(201).json({
       result: RESPONSE.SUCCESS,
