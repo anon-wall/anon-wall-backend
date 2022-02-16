@@ -31,13 +31,13 @@ exports.getCounselList = async (req, res, next) => {
     const { page = 1, limit = 6, tag, counselor, counselee } = req.query;
     const sortBy = req.query.sort || { createdAt: -1 };
     const options = {
-      ...(!!tag && { $elemMatch: { $eq: tag } }),
-      ...(!!counselor && { $exists: false }),
-      ...(!!counselee && { $eq: counselee }),
+      ...(!!tag && { tag: { $elemMatch: { $eq: tag } } }),
+      ...(!counselor && { counselor: { $exists: false } }),
+      ...(!!counselee && { counselee: { $eq: counselee } }),
     };
 
     const totalCounsel = await Counsel.countDocuments();
-    const pageCounsels = await Counsel.find(options)
+    const counsels = await Counsel.find(options)
       .sort(sortBy)
       .limit(parseInt(limit))
       .skip((page - 1) * parseInt(limit))
@@ -47,7 +47,7 @@ exports.getCounselList = async (req, res, next) => {
     const storyList = {
       hasPrevPage: true,
       hasNextPage: true,
-      pageCounsels,
+      counsels,
     };
 
     if (parseInt(page) === 1) {
@@ -100,7 +100,8 @@ exports.getReservedCounselList = async (req, res, next) => {
     }
 
     const reservedTotalCounsels = await Counsel.find(options).countDocuments();
-    const pageCounsels = await Counsel.find(options)
+
+    const counsels = await Counsel.find(options)
       .sort(sortBy)
       .limit(parseInt(limit))
       .skip((page - 1) * parseInt(limit))
@@ -110,7 +111,7 @@ exports.getReservedCounselList = async (req, res, next) => {
     const storyList = {
       hasPrevPage: true,
       hasNextPage: true,
-      pageCounsels,
+      counsels,
     };
 
     if (parseInt(page) === 1) {
@@ -153,15 +154,17 @@ exports.getCounsel = async (req, res, next) => {
 
 exports.updateCounsel = async (req, res, next) => {
   try {
-    const { counsel_id } = req.params;
+    const { counsel_id, user_id } = req.params;
     const { counselor, startDate, endDate } = req.body;
-    const { counselors } = await Counsel.findById(counsel_id)
-      .select("counselors")
+    const { counselors, counselor: existingCounselor } = await Counsel.findById(
+      counsel_id
+    )
+      .select("counselors counselor")
       .lean();
 
-    const isIncluded = String(counselors).includes(counselor);
+    const isIncluded = String(counselors).includes(user_id);
 
-    if (!isIncluded) {
+    if (!isIncluded || existingCounselor) {
       next(createError(403, MESSAGE.UNAUTHORIZED), {
         result: RESPONSE.FAIL,
       });
@@ -177,7 +180,7 @@ exports.updateCounsel = async (req, res, next) => {
       return;
     }
 
-    await Counsel.findByIdAndDelete(counselor);
+    await Counsel.findByIdAndDelete(user_id);
 
     await Counsel.findByIdAndUpdate(
       counsel_id,
@@ -227,5 +230,31 @@ exports.updateCounselors = async (req, res, next) => {
     }
 
     next(createError(err));
+  }
+};
+
+exports.getSchedules = async (req, res, next) => {
+  try {
+    const { counselor, counselee } = req.query;
+    const isValidCounselee = mongoose.Types.ObjectId.isValid(counselee);
+    const isValidCounselor = mongoose.Types.ObjectId.isValid(counselor);
+
+    if (!isValidCounselee && !isValidCounselor) {
+      next(createError.BadRequest(MESSAGE.BAD_REQUEST));
+      return;
+    }
+
+    const scheduledCounsels = await Counsel.find()
+      .or([{ counselee }, { counselor }])
+      .exists("startDate", true)
+      .select("startDate")
+      .lean();
+
+    res.status(200).json({
+      result: RESPONSE.SUCCESS,
+      data: scheduledCounsels,
+    });
+  } catch (err) {
+    next(err);
   }
 };

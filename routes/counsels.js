@@ -10,11 +10,13 @@ const {
   getCounsel,
   updateCounsel,
   updateCounselors,
+  getSchedules,
 } = require("../controllers/counsels.controller");
 
 router.post("/", verifyToken, createCounsel);
 router.get("/", getCounselList);
 router.get("/reserved", verifyToken, getReservedCounselList);
+router.get("/schedules", verifyToken, getSchedules);
 router.get("/:counsel_id", verifyToken, checkObjectId, getCounsel);
 router.post(
   "/:counsel_id/counselors/:user_id",
