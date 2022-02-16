@@ -30,20 +30,11 @@ exports.getCounselList = async (req, res, next) => {
   try {
     const { page = 1, limit = 6, tag, counselor, counselee } = req.query;
     const sortBy = req.query.sort || { createdAt: -1 };
-
-    const options = {};
-
-    if (tag) {
-      options.tag = { $elemMatch: { $eq: tag } };
-    }
-
-    if (counselor) {
-      options.counselor = { $exists: false };
-    }
-
-    if (counselee) {
-      options.counselee = { $eq: counselee };
-    }
+    const options = {
+      ...(!!tag && { $elemMatch: { $eq: tag } }),
+      ...(!!counselor && { $exists: false }),
+      ...(!!counselee && { $eq: counselee }),
+    };
 
     const totalCounsel = await Counsel.countDocuments();
     const pageCounsels = await Counsel.find(options)
@@ -53,23 +44,23 @@ exports.getCounselList = async (req, res, next) => {
       .populate("counselee")
       .lean();
 
-    const data = {
+    const storyList = {
       hasPrevPage: true,
       hasNextPage: true,
       pageCounsels,
     };
 
     if (parseInt(page) === 1) {
-      data.hasPrevPage = false;
+      storyList.hasPrevPage = false;
     }
 
     if (parseInt(page) * limit >= totalCounsel) {
-      data.hasNextPage = false;
+      storyList.hasNextPage = false;
     }
 
     res.status(200).json({
       result: RESPONSE.SUCCESS,
-      data: data,
+      data: storyList,
     });
   } catch (err) {
     next(createError(err));
@@ -116,23 +107,23 @@ exports.getReservedCounselList = async (req, res, next) => {
       .populate("counselee counselor")
       .lean();
 
-    const data = {
+    const storyList = {
       hasPrevPage: true,
       hasNextPage: true,
       pageCounsels,
     };
 
     if (parseInt(page) === 1) {
-      data.hasPrevPage = false;
+      storyList.hasPrevPage = false;
     }
 
     if (parseInt(page) * limit >= reservedTotalCounsels) {
-      data.hasNextPage = false;
+      storyList.hasNextPage = false;
     }
 
     res.status(200).json({
       result: RESPONSE.SUCCESS,
-      data: data,
+      data: storyList,
     });
   } catch (err) {
     next(createError(err));
@@ -142,7 +133,6 @@ exports.getReservedCounselList = async (req, res, next) => {
 exports.getCounsel = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
-
     const counsel = await Counsel.findById(counsel_id)
       .populate("counselors")
       .populate("counselee")
@@ -166,16 +156,10 @@ exports.updateCounsel = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
     const { counselor, startDate, endDate } = req.body;
-
     const { counselors } = await Counsel.findById(counsel_id)
       .select("counselors")
       .lean();
-
-    console.log("Array", counselors);
-
     const isIncluded = String(counselors).includes(counselor);
-
-    console.log("String", String(counselors));
 
     if (!isIncluded) {
       next(createError(403, MESSAGE.UNAUTHORIZED), {
@@ -197,9 +181,7 @@ exports.updateCounsel = async (req, res, next) => {
 
     await Counsel.findByIdAndUpdate(
       counsel_id,
-      {
-        $set: { counselor, startDate, endDate },
-      },
+      { counselor, startDate, endDate },
       { upsert: true }
     );
 
@@ -216,11 +198,9 @@ exports.updateCounselors = async (req, res, next) => {
   try {
     const { counsel_id } = req.params;
     const { userId } = req.body;
-
     const { counselors } = await Counsel.findById(counsel_id)
       .select("counselors")
       .lean();
-
     const isContain = counselors.some(
       (counselorId) => counselorId.toString() === userId.toString()
     );
@@ -234,12 +214,8 @@ exports.updateCounselors = async (req, res, next) => {
 
     await Counsel.findByIdAndUpdate(
       counsel_id,
-      {
-        $push: { counselors: userId },
-      },
-      {
-        new: true,
-      }
+      { $push: { counselors: userId } },
+      { new: true }
     );
 
     res.status(201).json({

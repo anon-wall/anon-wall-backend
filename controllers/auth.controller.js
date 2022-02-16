@@ -23,18 +23,15 @@ exports.handleLogin = async (req, res, next) => {
     const accessToken = jwt.sign(
       { email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
-
-    res.cookie("accessToken", accessToken, {
-      maxAge: 24 * 60 * 60 * 1000,
-    });
 
     res.status(200).json({
       result: "success",
-      data: user,
+      data: {
+        user,
+        accessToken,
+      },
     });
   } catch (err) {
     next(createError(err));
