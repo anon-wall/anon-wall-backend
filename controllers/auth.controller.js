@@ -14,10 +14,10 @@ exports.handleLogin = async (req, res, next) => {
         email,
         counselor: {
           tag: [],
-          validDate: [],
+          availableDates: [],
         },
         imageURL: `https://avatars.dicebear.com/api/croodles/${email}.svg`,
-      }).lean();
+      });
     }
 
     const accessToken = jwt.sign(
@@ -29,20 +29,17 @@ exports.handleLogin = async (req, res, next) => {
     res.status(200).json({
       result: "success",
       data: {
-        user,
+        user: {
+          _id: user._id,
+          imageURL: user.imageURL,
+          email: user.email,
+          notification: user.notification,
+          nickname: user.nickname,
+        },
         accessToken,
       },
     });
   } catch (err) {
     next(createError(err));
   }
-};
-
-exports.handleLogout = (req, res, next) => {
-  res.clearCookie("accessToken");
-
-  res.status(200).json({
-    result: "success",
-    data: null,
-  });
 };

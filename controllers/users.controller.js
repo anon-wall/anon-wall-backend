@@ -3,6 +3,28 @@ const createError = require("http-errors");
 const User = require("../models/User");
 const { RESPONSE, MESSAGE } = require("../constants");
 
+exports.getUser = async (req, res, next) => {
+  try {
+    const userEmail = req.user.email;
+    const user = await User.findOne({ email: userEmail }).lean();
+
+    res.status(200).json({
+      result: "success",
+      data: {
+        user: {
+          _id: user._id,
+          imageURL: user.imageURL,
+          email: user.email,
+          notification: user.notification,
+          nickname: user.nickname,
+        },
+      },
+    });
+  } catch (err) {
+    next(createError(err));
+  }
+};
+
 exports.getCounselor = async (req, res, next) => {
   try {
     const { user_id } = req.params;
