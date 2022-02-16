@@ -6,7 +6,6 @@ const { RESPONSE, MESSAGE } = require("../constants");
 exports.getCounselor = async (req, res, next) => {
   try {
     const { user_id } = req.params;
-
     const counselor = await User.findById(user_id).lean();
 
     if (!counselor) {
@@ -35,19 +34,16 @@ exports.updateUser = async (req, res, next) => {
       shortInput,
       longInput,
     } = req.body;
-
     const counselor = await User.findByIdAndUpdate(
       user_id,
       {
-        $set: {
-          nickname: nickname,
-          notification: notification,
-          imageURL: imageURL,
-          "counselor.familyTitle": familyTitle,
-          "counselor.tag": [...new Set(tag)],
-          "counselor.shortInput": shortInput,
-          "counselor.longInput": longInput,
-        },
+        nickname,
+        notification,
+        imageURL,
+        "counselor.familyTitle": familyTitle,
+        "counselor.tag": [...new Set(tag)],
+        "counselor.shortInput": shortInput,
+        "counselor.longInput": longInput,
       },
       { new: true }
     ).lean();
@@ -70,7 +66,6 @@ exports.updateCounselorSchedule = async (req, res, next) => {
   try {
     const { user_id } = req.params;
     const { type, day, startHour, endHour, startDate, endDate } = req.body;
-
     const availableDates = await User.findByIdAndUpdate(
       user_id,
       {
@@ -100,7 +95,6 @@ exports.updateCounselorSchedule = async (req, res, next) => {
 exports.deleteCounselorSchedule = async (req, res, next) => {
   try {
     const { user_id, id } = req.params;
-
     const counselor = await User.findByIdAndUpdate(user_id, {
       $pull: { "counselor.availableDates": { _id: id } },
     });
