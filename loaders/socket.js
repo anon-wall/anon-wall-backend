@@ -36,7 +36,7 @@ exports.webSocket = (server) => {
         return;
       }
 
-      if (!(foundRoom?.startDate >= now && foundRoom?.endDate <= now)) {
+      if (foundRoom?.startDate >= now || foundRoom?.endDate <= now) {
         socket.emit("accessAuthorization", "입장 시간이 아닙니다.");
         return;
       }

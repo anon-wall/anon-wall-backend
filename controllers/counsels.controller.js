@@ -154,15 +154,15 @@ exports.getCounsel = async (req, res, next) => {
 
 exports.updateCounsel = async (req, res, next) => {
   try {
-    const { counsel_id, user_id } = req.params;
-    const { counselor, startDate, endDate } = req.body;
+    const { counsel_id, user_id: newCounselor } = req.params;
+    const { startDate, endDate } = req.body;
     const { counselors, counselor: existingCounselor } = await Counsel.findById(
       counsel_id
     )
       .select("counselors counselor")
       .lean();
 
-    const isIncluded = String(counselors).includes(user_id);
+    const isIncluded = String(counselors).includes(newCounselor);
 
     if (!isIncluded || existingCounselor) {
       next(createError(403, MESSAGE.UNAUTHORIZED), {
@@ -180,11 +180,9 @@ exports.updateCounsel = async (req, res, next) => {
       return;
     }
 
-    await Counsel.findByIdAndDelete(user_id);
-
     await Counsel.findByIdAndUpdate(
       counsel_id,
-      { counselor, startDate, endDate },
+      { counselor: newCounselor, startDate, endDate },
       { upsert: true }
     );
 
