@@ -36,7 +36,7 @@ exports.getCounselList = async (req, res, next) => {
       ...(!!counselee && { counselee: { $eq: counselee } }),
     };
 
-    const totalCounsel = await Counsel.countDocuments();
+    const totalCounsels = await Counsel.find(options).countDocuments();
     const counsels = await Counsel.find(options)
       .sort(sortBy)
       .limit(parseInt(limit))
@@ -54,7 +54,7 @@ exports.getCounselList = async (req, res, next) => {
       storyList.hasPrevPage = false;
     }
 
-    if (parseInt(page) * limit >= totalCounsel) {
+    if (parseInt(page) * limit >= totalCounsels) {
       storyList.hasNextPage = false;
     }
 
