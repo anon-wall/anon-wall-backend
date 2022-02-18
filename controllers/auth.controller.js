@@ -1,9 +1,18 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
+const {
+  uniqueNamesGenerator,
+  adjectives,
+  animals,
+} = require("unique-names-generator");
 
 const User = require("../models/User");
 
 exports.handleLogin = async (req, res, next) => {
+  const randomNameImage = uniqueNamesGenerator({
+    dictionaries: [adjectives, animals],
+  });
+
   try {
     const { email } = req.body;
     const foundUser = await User.findOne({ email }).lean();
@@ -16,7 +25,7 @@ exports.handleLogin = async (req, res, next) => {
           tag: [],
           availableDates: [],
         },
-        imageURL: `https://avatars.dicebear.com/api/croodles/${email}.svg`,
+        imageURL: `https://avatars.dicebear.com/api/croodles/${randomNameImage}.svg`,
       });
     }
 
