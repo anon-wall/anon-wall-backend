@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
 exports.verifyToken = (req, res, next) => {
-  const { accessToken } = req.cookies;
+  const accessToken = req.headers.accesstoken;
 
   if (!accessToken) {
     next(createError.Unauthorized("로그인이 필요한 유저입니다."));
