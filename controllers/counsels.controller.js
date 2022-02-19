@@ -3,6 +3,7 @@ const createError = require("http-errors");
 
 const Counsel = require("../models/Counsel");
 const { RESPONSE, MESSAGE } = require("../constants");
+const { sendMail } = require("../loaders/nodemailer");
 
 exports.createCounsel = async (req, res, next) => {
   try {
@@ -180,11 +181,19 @@ exports.updateCounsel = async (req, res, next) => {
       return;
     }
 
-    await Counsel.findByIdAndUpdate(
+    const updatedCounsel = await Counsel.findByIdAndUpdate(
       counsel_id,
       { counselor: newCounselor, startDate, endDate },
-      { upsert: true }
-    );
+      { upsert: true, new: true }
+    ).populate("counselee counselor");
+
+    console.log(updatedCounsel);
+
+    await sendMail({
+      counseleeEmail: updatedCounsel.counselee.email,
+      counselorEmail: updatedCounsel.counselor.email,
+      startDate: updatedCounsel.startDate,
+    });
 
     res.status(201).json({
       result: RESPONSE.SUCCESS,
