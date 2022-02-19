@@ -187,8 +187,6 @@ exports.updateCounsel = async (req, res, next) => {
       { upsert: true, new: true }
     ).populate("counselee counselor");
 
-    console.log(updatedCounsel);
-
     await sendMail({
       counseleeEmail: updatedCounsel.counselee.email,
       counselorEmail: updatedCounsel.counselor.email,
