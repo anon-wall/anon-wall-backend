@@ -6,7 +6,6 @@
     "start": "node ./bin/www",
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "prod": "NODE_ENV=production nodemon ./bin/www",
-    "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
