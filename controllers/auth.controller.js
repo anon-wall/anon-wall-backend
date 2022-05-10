@@ -9,14 +9,16 @@ const {
 const User = require("../models/User");
 
 exports.handleLogin = async (req, res, next) => {
-  const randomNameImage = uniqueNamesGenerator({
-    dictionaries: [adjectives, animals],
-  });
-
   try {
     const { email } = req.body;
     const foundUser = await User.findOne({ email }).lean();
     let user = foundUser;
+    const randomNameImage = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals],
+      seed: email,
+    });
+
+    console.log(randomNameImage);
 
     if (!foundUser) {
       user = await User.create({
